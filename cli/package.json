@@ -1,0 +1,14 @@
+{
+  "name": "doku-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Arne Van Raepenbusch <arne.vanraepenbusch@iadvise.eu>",
+  "license": "ISC",
+  "dependencies": {
+    "handlebars": "^4.0.2"
+  }
+}

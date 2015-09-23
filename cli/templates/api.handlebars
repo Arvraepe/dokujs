@@ -1,0 +1,55 @@
+(function (parent, undefined) {
+
+    function abstractRequest (config) {
+
+        var createParameters = function (params) {
+            var paramStr = Object.keys(params).reduce(function (str, param) {
+                return str + param + '=' + encodeURI(params[param]) + '&';
+            }, "?");
+            return paramStr.substr(0,paramStr.length - 1);
+        };
+
+        var request_url = "http://{{api.base}}" + config.path + createParameters(config.params);
+        $.ajax({
+            type: config.type,
+            url: request_url,
+            body: config.body,
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function (response) {
+                if (config.success) config.success.apply(config.scope, arguments);
+            },
+            error: function (xhr) {
+                if (config.error) config.error.apply(config.scope, arguments);
+            }
+        });
+    }
+
+    if (!parent["{{api.name}}"]) {
+        parent["{{api.name}}"] = function () {
+            return {
+                {{#forObject api.services}}
+                "{{$name}}": {
+                    {{#forObject this}}
+                    "{{$name}}": function (config) {
+                        abstractRequest({
+                            type: "{{method}}",
+                            path: "{{path}}",
+                            success: config.onSuccess,
+                            error: config.onError,
+                            body: config.body,
+                            params: {
+                                {{#forObject parameters}}
+                                {{$name}}: config.params.{{$name}}{{#unless $last}},{{/unless}}
+                                {{/forObject}}
+                            }
+                        });
+                    }{{#unless $last}},{{/unless}}
+                    {{/forObject}}
+                }{{#unless $last}},{{/unless}}
+                {{/forObject}}
+            }
+        }();
+    }
+
+}(window));

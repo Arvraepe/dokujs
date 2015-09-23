@@ -1,0 +1,36 @@
+{
+    "name": "example",
+    "description": "An example REST API definition",
+    "base": "localhost:8091",
+    "services": {
+        "users": {
+            "getUser": {
+                "method": "get",
+                "path": "/user",
+                "parameters": {
+                    "id": { "required": true, "type": "string" },
+                    "api_key" : { "required": true, "type": "string" }
+                }
+            },
+            "createUser": {
+                "method": "post",
+                "path": "/user/create",
+                "parameters": {
+                    "api_key": { "required": true, "type": "string" }
+                },
+                "body": {
+                    "username": { "required": true, "type": "string" }
+                }
+            }
+        },
+        "products": {
+            "getProductsByCustomer": {
+                "method": "get",
+                "path": "/products/by/customer/:id",
+                "parameters": {
+                    "api_key": { "required": true, "type": "string" }
+                }
+            }
+        }
+    }
+}

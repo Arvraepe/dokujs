@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Testing the example service</title>
+    <script></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../output/api.js"></script>
+    <script>
+        $(document).ready(function () {
+            console.log('1. GET USERS');
+            example.users.getUser({
+                params: {
+                    id: 1,
+                    api_key: "test"
+                },
+                onSuccess: function (response) {
+                    console.log(response);
+                },
+                onError: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

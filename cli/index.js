@@ -2,6 +2,7 @@ var fs = require('fs');
 var Handlebars = require('handlebars');
 
 Handlebars.registerHelper("forObject",function(obj,options) {
+    if (!obj) return [];
     var arr = Object.keys(obj).filter(function (key) { return key.charAt(0) !== '$'; } );
     return arr.map(function(key,index) {
         obj[key].$name = key;

@@ -32,12 +32,11 @@
                     "getUser": function (config) {
                         abstractRequest({
                             type: "get",
-                            path: "/user",
+                            path: "/user/"+config.id,
                             success: config.onSuccess,
                             error: config.onError,
                             body: config.body,
                             params: {
-                                id: config.params.id,
                                 api_key: config.params.api_key
                             }
                         });

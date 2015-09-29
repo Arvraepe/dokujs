@@ -1,0 +1,56 @@
+(function (parent, undefined) {
+
+    function abstractRequest (config) {
+
+        var createParameters = function (params) {
+            var paramStr = Object.keys(params).reduce(function (str, param) {
+                return str + param + '=' + encodeURI(params[param]) + '&';
+            }, "?");
+            return paramStr.substr(0,paramStr.length - 1);
+        };
+
+        var request_url = "http://{{=it.api.base}}" + config.path + createParameters(config.params);
+        $.ajax({
+            type: config.type,
+            url: request_url,
+            body: config.body,
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function (response) {
+                if (config.success) config.success.apply(config.scope, arguments);
+            },
+            error: function (xhr) {
+                if (config.error) config.error.apply(config.scope, arguments);
+            }
+        });
+    }
+
+    if (!parent["{{=it.api.name}}"]) {
+        parent["{{=it.api.name}}"] = function () {
+            return {
+                {{ if (it.api.services) { }}
+                    {{ Object.keys(it.api.services).forEach(function (service, serviceIndex) { }}
+                    {{= service }}: {
+                        {{ Object.keys(it.api.services[service]).forEach(function (method, methodIndex) { }}
+                            {{ var methodObj = it.api.services[service][method]; }}
+                            {{= method}}: function (config) {
+                                abstractRequest({
+                                    type: "{{= method}}",
+                                    path: "{{= methodObj.path}}",
+                                    success: config.onSuccess,
+                                    error: config.onError,
+                                    body: config.body,
+                                    params: {
+
+                                    }
+                                });
+                            }{{? methodIndex !== Object.keys(it.api.services[service]).length - 1 }},{{?}}
+                        {{ }); }}
+                    }{{? serviceIndex !== Object.keys(it.api.services).length - 1 }},{{?}}
+                    {{ }); }}
+                {{ } }}
+            }
+        }();
+    }
+
+}(window));

@@ -9,6 +9,7 @@
   "author": "Arne Van Raepenbusch <arne.vanraepenbusch@iadvise.eu>",
   "license": "ISC",
   "dependencies": {
+    "dot": "^1.0.3",
     "handlebars": "^4.0.2"
   }
 }

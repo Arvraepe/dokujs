@@ -34,7 +34,7 @@
                     "{{$name}}": function (config) {
                         abstractRequest({
                             type: "{{method}}",
-                            path: "{{path}}{{#each urlParameters}}/"+config.{{this}}{{else}}"{{/each}},
+                            path: "{{path}}{{#each urlParameters}}{{#equal index 0}}+"{{/equal}}/"+config.{{this}}{{else}}"{{/each}},
                             success: config.onSuccess,
                             error: config.onError,
                             body: config.body,

@@ -7,7 +7,7 @@
             "getUser": {
                 "method": "get",
                 "path": "/user",
-                "urlParameters": ["id"],
+                "urlParameters": ["id", "test"],
                 "parameters": {
                     "api_key" : { "required": true, "type": "string" }
                 }
